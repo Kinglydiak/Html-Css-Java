@@ -1,0 +1,32 @@
+const rates = {
+  USD: 1.0,
+  JPY: 113.5,
+  EUR: 0.89,
+  RUB: 74.36,
+  GBP: 0.75,
+  RWF: 9.86,
+  NRA: 1200,
+  SHL: 2900
+};
+
+document.getElementById('converter-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const from = document.getElementById('from').value.trim().toUpperCase();
+  const to = document.getElementById('to').value.trim().toUpperCase();
+  const amount = parseFloat(document.getElementById('amount').value);
+  const resultDiv = document.getElementById('result');
+
+  if (!rates[from] || !rates[to]) {
+    resultDiv.textContent = 'Invalid currency code. Use USD, JPY, EUR, RUB, GBP, RWF, NRA, SHL.';
+    return;
+  }
+
+  if (isNaN(amount) || amount <= 0) {
+    resultDiv.textContent = 'Please enter a valid amount.';
+    return;
+  }
+
+  const converted = (amount / rates[from]) * rates[to];
+  resultDiv.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+});
