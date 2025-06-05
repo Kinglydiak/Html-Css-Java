@@ -1,0 +1,42 @@
+const rates = {
+  USD: 1.0,
+  JPY: 113.5,
+  EUR: 0.89,
+  RUB: 74.36,
+  GBP: 0.75,
+  RWF: 9.86,
+  NRA: 1200,
+  SHL: 2900
+};
+
+const fromSelect = document.getElementById('from-currency');
+const toSelect = document.getElementById('to-currency');
+const form = document.getElementById('converter-form');
+const resultDiv = document.getElementById('result');
+
+// Populate dropdowns
+for (let currency in rates) {
+  const option1 = document.createElement('option');
+  const option2 = document.createElement('option');
+  option1.value = currency;
+  option2.value = currency;
+  option1.textContent = currency;
+  option2.textContent = currency;
+  fromSelect.appendChild(option1);
+  toSelect.appendChild(option2);
+}
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const fromCurrency = fromSelect.value;
+  const toCurrency = toSelect.value;
+  const amount = parseFloat(document.getElementById('amount').value);
+
+  if (!fromCurrency || !toCurrency || isNaN(amount)) {
+    resultDiv.textContent = 'Please fill all fields correctly.';
+    return;
+  }
+
+  const convertedAmount = (amount / rates[fromCurrency]) * rates[toCurrency];
+  resultDiv.textContent = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+});
